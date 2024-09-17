@@ -17,11 +17,12 @@ class Gravador(QMainWindow):
         self.interface()
         self.design()
 
+        self.gravando = False
+
     def interface(self):
         self.setWindowTitle("Amplay Gratuito")
-        self.setGeometry(200, 200, 650, 250)
-        self.setMinimumSize(650, 250)
-        # Adicionar icon
+        self.setFixedSize(650, 250)
+        self.setWindowIcon(QIcon("imagens\\Rec.ico"))
 
         self.statusbar = QStatusBar()
         self.setStatusBar(self.statusbar)
@@ -40,11 +41,22 @@ class Gravador(QMainWindow):
         frame_buttons_layout = QHBoxLayout()
         frame_buttons.setLayout(frame_buttons_layout)
 
-        self.button_gravar = QPushButton("GRAVAR")
+        self.button_gravar = QPushButton()
+        self.button_gravar.setIcon(QIcon("imagens\\Rec.ico"))
+        self.button_gravar.setIconSize(QSize(90, 90))
+        self.button_gravar.setFixedSize(100, 100)
+        self.button_gravar.clicked.connect(self.gravar_parar)
 
-        self.button_pasta = QPushButton("GRAVAÇÕES")
+        self.button_pasta = QPushButton()
+        self.button_pasta.setIcon(QIcon("imagens\\Pasta.ico"))
+        self.button_pasta.setIconSize(QSize(90, 90))
+        self.button_pasta.setFixedSize(100, 100)
+
+        frame_buttons_layout.addWidget(self.button_gravar)
+        frame_buttons_layout.addWidget(self.button_pasta)
 
         fundo_gravador_layout.addWidget(self.title)
+        fundo_gravador_layout.addWidget(frame_buttons)
 
         layout_principal = QVBoxLayout(widget_central)
         layout_principal.addWidget(self.fundo_gravador)
@@ -65,13 +77,40 @@ class Gravador(QMainWindow):
             }
         """)
 
+        self.button_gravar.setStyleSheet("""
+        QPushButton {
+            border-radius: 5px;
+            }
+            
+        QPushButton:hover {
+            border: 1px solid black;
+            }
+        """)
+
+        self.button_pasta.setStyleSheet("""
+        QPushButton {
+            border-radius: 5px;
+            }
+
+        QPushButton:hover {
+            border: 1px solid black;
+            }
+        """)
+
     def resizeEvent(self, event):
         tamanho = self.size()
 
         self.fundo_gravador.setFixedSize(tamanho.width() - 20, tamanho.height() - 35)
 
-    def gravar(self):
-        pass
+    def gravar_parar(self):
+        if not self.gravando:
+            print("gravando")
+            self.button_gravar.setIcon(QIcon("imagens\\Stop.ico"))
+            self.gravando = True
+        else:
+            print("Parando")
+            self.button_gravar.setIcon(QIcon("imagens\\Rec.ico"))
+            self.gravando = False
 
     def ver_pasta(self):
         pass
