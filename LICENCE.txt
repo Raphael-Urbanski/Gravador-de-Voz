@@ -1,0 +1,15 @@
+Licença de Uso do Software de Gravação de Voz
+
+Permissão de Uso, Modificação e Distribuição:
+
+Este software é gratuito para ser utilizado, modificado e distribuído, desde que não seja comercializado ou vendido de forma direta.
+A venda direta do software, incluindo qualquer modificação, é estritamente proibida.
+Uso Comercial Indireto:
+
+O uso do software para fins comerciais indiretos, como a gravação de vídeos de cursos ou outros conteúdos monetizados, é permitido. Recomenda-se que o nome do software ou o link do repositório GitHub seja mencionado nos materiais, embora isso não seja obrigatório.
+Código Aberto e Compartilhamento:
+
+Modificações são permitidas e podem ser distribuídas, desde que mantenham o espírito desta licença, ou seja, o software e suas modificações devem continuar a ser distribuídos gratuitamente.
+Isenção de Responsabilidade:
+
+Este software é fornecido "como está", sem garantias de qualquer tipo. O autor não se responsabiliza por quaisquer problemas ou danos resultantes do uso do software.

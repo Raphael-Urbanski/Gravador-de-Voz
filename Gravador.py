@@ -29,17 +29,15 @@ class Gravador(QMainWindow):
 
         widget_central = QWidget()
 
-        self.fundo_gravador = QFrame()
-        fundo_gravador_layout = QVBoxLayout()
-        self.fundo_gravador.setLayout(fundo_gravador_layout)
+        # --------------------------------------------------------------------------------------------------------------
 
         self.title = QLabel("AmPlay [Versão Teste]")
         self.title.setMaximumSize(3000, 25)
         self.title.setAlignment(Qt.AlignCenter)
 
-        frame_buttons = QFrame()
+        self.frame_buttons = QFrame()
         frame_buttons_layout = QHBoxLayout()
-        frame_buttons.setLayout(frame_buttons_layout)
+        self.frame_buttons.setLayout(frame_buttons_layout)
 
         self.button_gravar = QPushButton()
         self.button_gravar.setIcon(QIcon("imagens\\Rec.ico"))
@@ -55,11 +53,15 @@ class Gravador(QMainWindow):
         frame_buttons_layout.addWidget(self.button_gravar)
         frame_buttons_layout.addWidget(self.button_pasta)
 
-        fundo_gravador_layout.addWidget(self.title)
-        fundo_gravador_layout.addWidget(frame_buttons)
+        # --------------------------------------------------------------------------------------------------------------
+
+        self.frame_final = QFrame()
+        frame_final_layout = QHBoxLayout()
+        self.frame_final.setLayout(frame_final_layout)
 
         layout_principal = QVBoxLayout(widget_central)
-        layout_principal.addWidget(self.fundo_gravador)
+        layout_principal.addWidget(self.title)
+        layout_principal.addWidget(self.frame_buttons)
         widget_central.setLayout(layout_principal)
 
         self.setCentralWidget(widget_central)
@@ -68,18 +70,21 @@ class Gravador(QMainWindow):
         self.title.setStyleSheet("""
         QLabel {
             border: 1px solid black;
+            background-color: #144E5E;
+            color: white;
             }
         """)
 
-        self.fundo_gravador.setStyleSheet("""
+        self.frame_buttons.setStyleSheet("""
         QFrame {
-             border: 1px solid black;
+            border: 1px solid black;
             }
         """)
 
         self.button_gravar.setStyleSheet("""
         QPushButton {
             border-radius: 5px;
+            background-color: #8DA7BE;
             }
             
         QPushButton:hover {
@@ -90,6 +95,7 @@ class Gravador(QMainWindow):
         self.button_pasta.setStyleSheet("""
         QPushButton {
             border-radius: 5px;
+            background-color: #8DA7BE;
             }
 
         QPushButton:hover {
@@ -97,18 +103,13 @@ class Gravador(QMainWindow):
             }
         """)
 
-    def resizeEvent(self, event):
-        tamanho = self.size()
-
-        self.fundo_gravador.setFixedSize(tamanho.width() - 20, tamanho.height() - 35)
-
     def gravar_parar(self):
         if not self.gravando:
-            print("gravando")
+            self.statusbar.showMessage("Gravando")
             self.button_gravar.setIcon(QIcon("imagens\\Stop.ico"))
             self.gravando = True
         else:
-            print("Parando")
+            self.statusbar.showMessage("Gravação Terminada")
             self.button_gravar.setIcon(QIcon("imagens\\Rec.ico"))
             self.gravando = False
 
