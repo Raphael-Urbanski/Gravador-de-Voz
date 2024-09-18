@@ -1,15 +1,32 @@
-Licença de Uso do Software de Gravação de Voz
+Licença de Uso do Software
 
-Permissão de Uso, Modificação e Distribuição:
+Nome do Software: AmPlay
+Autor: Raphael Urbanski/ Ampliato
 
-Este software é gratuito para ser utilizado, modificado e distribuído, desde que não seja comercializado ou vendido de forma direta.
-A venda direta do software, incluindo qualquer modificação, é estritamente proibida.
-Uso Comercial Indireto:
+1. Permissões
 
-O uso do software para fins comerciais indiretos, como a gravação de vídeos de cursos ou outros conteúdos monetizados, é permitido. Recomenda-se que o nome do software ou o link do repositório GitHub seja mencionado nos materiais, embora isso não seja obrigatório.
-Código Aberto e Compartilhamento:
+	Você tem permissão para:
 
-Modificações são permitidas e podem ser distribuídas, desde que mantenham o espírito desta licença, ou seja, o software e suas modificações devem continuar a ser distribuídos gratuitamente.
-Isenção de Responsabilidade:
+	Usar o software para qualquer propósito não comercial direto.
+	Modificar o código-fonte, adicionando ou removendo funcionalidades.
+	Distribuir o software e suas modificações, desde que siga as regras desta licença.
 
-Este software é fornecido "como está", sem garantias de qualquer tipo. O autor não se responsabiliza por quaisquer problemas ou danos resultantes do uso do software.
+2. Restrições
+
+	Você não pode:
+
+	Vender ou lucrar diretamente com este software ou suas modificações.
+	Utilizar o software ou versões modificadas para propósitos comerciais diretos.
+	Retirar os créditos originais do autor ou distribuidor.
+
+3. Código Aberto e Compartilhamento:
+
+	Modificações são permitidas e podem ser distribuídas, desde que mantenham o espírito desta licença, ou seja, o software 	e suas modificações devem continuar a ser distribuídos gratuitamente.
+
+4. Uso Comercial Indireto:
+
+	O uso do software para fins comerciais indiretos, como a gravação de vídeos de cursos ou outros conteúdos monetizados, 		é permitido. Recomenda-se que o nome do software ou o link do repositório GitHub seja mencionado nos materiais, embora 		isso não seja obrigatório.
+
+5. Garantia
+
+	Este software é fornecido "como está", sem garantias ou condições de qualquer tipo, expressas ou implícitas. O uso do 		software é de sua responsabilidade.
