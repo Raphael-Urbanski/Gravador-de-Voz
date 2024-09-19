@@ -1,32 +1,32 @@
-Licença de Uso do Software
+﻿Licença de Uso do Software
 
 Nome do Software: AmPlay
 Autor: Raphael Urbanski/ Ampliato
 
 1. Permissões
 
-	Você tem permissão para:
+Você tem permissão para:
 
-	Usar o software para qualquer propósito não comercial direto.
-	Modificar o código-fonte, adicionando ou removendo funcionalidades.
-	Distribuir o software e suas modificações, desde que siga as regras desta licença.
+Usar o software para qualquer propósito não comercial direto.
+Modificar o código-fonte, adicionando ou removendo funcionalidades.
+Distribuir o software e suas modificações, desde que siga as regras desta licença.
 
 2. Restrições
 
-	Você não pode:
+Você não pode:
 
-	Vender ou lucrar diretamente com este software ou suas modificações.
-	Utilizar o software ou versões modificadas para propósitos comerciais diretos.
-	Retirar os créditos originais do autor ou distribuidor.
+Vender ou lucrar diretamente com este software ou suas modificações.
+Utilizar o software ou versões modificadas para propósitos comerciais diretos.
+Retirar os créditos originais do autor ou distribuidor.
 
 3. Código Aberto e Compartilhamento:
 
-	Modificações são permitidas e podem ser distribuídas, desde que mantenham o espírito desta licença, ou seja, o software 	e suas modificações devem continuar a ser distribuídos gratuitamente.
+Modificações são permitidas e podem ser distribuídas, desde que mantenham o espírito desta licença, ou seja, o software 	e suas modificações devem continuar a ser distribuídos gratuitamente.
 
 4. Uso Comercial Indireto:
 
-	O uso do software para fins comerciais indiretos, como a gravação de vídeos de cursos ou outros conteúdos monetizados, 		é permitido. Recomenda-se que o nome do software ou o link do repositório GitHub seja mencionado nos materiais, embora 		isso não seja obrigatório.
+O uso do software para fins comerciais indiretos, como a gravação de vídeos de cursos ou outros conteúdos monetizados, 		é permitido. Recomenda-se que o nome do software ou o link do repositório GitHub seja mencionado nos materiais, embora 		isso não seja obrigatório.
 
 5. Garantia
 
-	Este software é fornecido "como está", sem garantias ou condições de qualquer tipo, expressas ou implícitas. O uso do 		software é de sua responsabilidade.
+Este software é fornecido "como está", sem garantias ou condições de qualquer tipo, expressas ou implícitas. O uso do 		software é de sua responsabilidade.

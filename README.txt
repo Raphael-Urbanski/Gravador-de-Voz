@@ -1,4 +1,4 @@
-Olá, aqui é o Raphael, da Ampliato.
+﻿Olá, aqui é o Raphael, da Ampliato.
 
 Obrigado por baixar o software, seja pelo nosso site ou pelo repositório do GitHub!
 
@@ -11,13 +11,13 @@ Agradeço de coração aos que decidiram doar uma parte do seu dinheiro! Graças
 O aplicativo atualmente é bem simples, com 2 botões apenas.
 
 Botão "PLAY":
-	- Ao apertar o botão, a gravação é iniciada, futuramente adicionarei um tempo antes de iniciar. Após iniciar, o botão 		se é modificado para parar a grvação, uma vez que é iniciada. Ao apertar o botão novamente após iniciar a gravação, ea 	se encerrará, após isso, uma pequena janela irá abrir para o arquivo ser renomeado. Quando apertar o "OK" da janela, 	seu arquivo setrá salvo com o nome escolhido.
+- Ao apertar o botão, a gravação é iniciada, futuramente adicionarei um tempo antes de iniciar. Após iniciar, o botão 	é modificado para parar a grvação, uma vez que é iniciada. Ao apertar o botão novamente após iniciar a gravação, ea 	se encerrará, após isso, uma pequena janela irá abrir para o arquivo ser renomeado. Quando apertar o "OK" da janela, 	seu arquivo setrá salvo com o nome escolhido.
 
 Botão "SAVE":
-	- Ao apertar, o usuário será direcionado para a pasta onde os arquivos de áudio são salvos. (Futuramente adicionareia 	opção de mudar o local onde os arquivos são salvos).
+- Ao apertar, o usuário será direcionado para a pasta onde os arquivos de áudio são salvos. (Futuramente adicionareia 	opção de mudar o local onde os arquivos são salvos).
 
 Link Rodapé: 
-	No rodapé você poderá encontrar um link da Ampliato, para poder acessar nosso site caso queira ver se há atualizações!
+No rodapé você poderá encontrar um link da Ampliato, para poder acessar nosso site caso queira ver se há atualizações!
 
 -- IMPORTANTE ----------------------------------------------
 
