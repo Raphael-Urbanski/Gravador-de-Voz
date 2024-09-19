@@ -20,7 +20,6 @@ class AnimatedButton(QPushButton):
         self.animation.setDuration(200)  # Duração da animação
 
     def enterEvent(self, event):
-        # Aumenta o botão quando o mouse passa por cima
         self.animation.stop()
         enlarged_rect = self.geometry().adjusted(-5, -5, 5, 5)
         self.animation.setStartValue(self.geometry())
@@ -29,7 +28,6 @@ class AnimatedButton(QPushButton):
         super().enterEvent(event)
 
     def leaveEvent(self, event):
-        # Volta ao tamanho original quando o mouse sai
         self.animation.stop()
         self.animation.setStartValue(self.geometry())
         self.animation.setEndValue(self.geometry().adjusted(5, 5, -5, -5))
@@ -55,7 +53,6 @@ class RenomearDialog(QDialog):
             Qt.Horizontal, self
         )
 
-        # Estilo para o QLineEdit
         self.input.setStyleSheet("""
         QLineEdit {
             border: 1px solid black;
@@ -65,7 +62,6 @@ class RenomearDialog(QDialog):
             }
         """)
 
-        # Estilo para os botões individuais dentro do QDialogButtonBox
         ok_button = buttons.button(QDialogButtonBox.Ok)
         ok_button.setMaximumSize(100, 100)
         ok_button.setStyleSheet("""
@@ -226,7 +222,6 @@ class Gravador(QMainWindow):
             videos_path = os.path.join(os.path.expanduser("~"), "Music")
             temp_file_path = os.path.join(videos_path, "Gravação_temp.wav")
 
-            # Usar QFile para escrever o arquivo de áudio
             file = QFile(temp_file_path)
             if not file.open(QIODevice.WriteOnly):
                 QMessageBox.critical(self, "Erro", "Não foi possível salvar a gravação.")
@@ -239,27 +234,38 @@ class Gravador(QMainWindow):
             out_file.writeframes(b"".join(self.frames))
             out_file.close()
 
-            # Assegurar que o QFile está fechado
             file.close()
 
             self.audio.terminate()
 
-            # Abrir a janela de renomeação
             self.abrir_renomear_dialog(temp_file_path)
 
     def abrir_renomear_dialog(self, temp_file_path):
         dialog = RenomearDialog(self)
-        if dialog.exec_() == QDialog.Accepted:
-            new_name = dialog.get_new_name()
-            if new_name:
-                new_name += ".wav" if not new_name.endswith(".wav") else ""
-                new_file_path = os.path.join(os.path.dirname(temp_file_path), new_name)
-                file = QFile(temp_file_path)
+        while True:
+            if dialog.exec_() == QDialog.Accepted:
+                new_name = dialog.get_new_name()
+                if new_name:
+                    new_name += ".wav" if not new_name.endswith(".wav") else ""
+                    new_file_path = os.path.join(os.path.dirname(temp_file_path), new_name)
+                    file = QFile(temp_file_path)
 
-                if not file.rename(new_file_path):
-                    QMessageBox.critical(self, "Erro", f"Falha ao renomear o arquivo: {file.errorString()}")
-                else:
-                    QMessageBox.information(self, "Sucesso", f"Arquivo salvo como {new_file_path}")
+                    if os.path.exists(new_file_path):
+                        reply = QMessageBox.question(self, 'Sobrescrever',
+                                                     f'O arquivo "{new_name}" já existe. Deseja sobrescrevê-lo?',
+                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                        if reply == QMessageBox.No:
+                            continue
+                        elif reply == QMessageBox.Yes:
+                            break
+                    elif not file.rename(new_file_path):
+                        QMessageBox.critical(self, "Erro", f"Falha ao renomear o arquivo: {file.errorString()}")
+                        break
+                    else:
+                        QMessageBox.information(self, "Sucesso", f"Arquivo salvo como {new_file_path}")
+                        break
+            else:
+                break
 
     def ver_pasta(self):
         videos_path = os.path.join(os.path.expanduser("~"), "Music")
