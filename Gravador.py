@@ -9,6 +9,9 @@ import time
 import os
 import subprocess
 
+# Tentei deixar o mais organizado possível, algumas linhas de código até eu tenho problema para entender, então se
+# ficou muito difícil de entender, perdão!
+
 
 class AnimatedButton(QPushButton):
     def __init__(self, icon, parent=None):
@@ -16,21 +19,23 @@ class AnimatedButton(QPushButton):
         self.setIcon(icon)
         self.setIconSize(QSize(90, 90))
         self.setFixedSize(100, 100)
-        self.animation = QPropertyAnimation(self, b"geometry")
-        self.animation.setDuration(200)  # Duração da animação
+        self.default_icon_size = QSize(90, 90)
+
+        self.animation = QPropertyAnimation(self, b"iconSize")
+        self.animation.setDuration(200)
 
     def enterEvent(self, event):
         self.animation.stop()
-        enlarged_rect = self.geometry().adjusted(-5, -5, 5, 5)
-        self.animation.setStartValue(self.geometry())
-        self.animation.setEndValue(enlarged_rect)
+        enlarged_icon_size = self.default_icon_size + QSize(10, 10)
+        self.animation.setStartValue(self.iconSize())
+        self.animation.setEndValue(enlarged_icon_size)
         self.animation.start()
         super().enterEvent(event)
 
     def leaveEvent(self, event):
         self.animation.stop()
-        self.animation.setStartValue(self.geometry())
-        self.animation.setEndValue(self.geometry().adjusted(5, 5, -5, -5))
+        self.animation.setStartValue(self.iconSize())
+        self.animation.setEndValue(self.default_icon_size)
         self.animation.start()
         super().leaveEvent(event)
 
@@ -98,9 +103,10 @@ class Gravador(QMainWindow):
         self.gravando = False
         self.frames = []
         self.stream = None
+        self.stop_recording = False
 
     def interface(self):
-        self.setWindowTitle("Amplay Gratuito")
+        self.setWindowTitle("Amplay | Versão aberta")
         self.setFixedSize(650, 250)
         self.setWindowIcon(QIcon("imagens\\Rec.ico"))
 
@@ -111,7 +117,7 @@ class Gravador(QMainWindow):
 
         # --------------------------------------------------------------------------------------------------------------
 
-        self.title = QLabel("AmPlay [0.0.1]")
+        self.title = QLabel("AmPlay [0.0.2]")
         self.title.setMaximumSize(650, 35)
         self.title.setAlignment(Qt.AlignCenter)
 
@@ -120,7 +126,7 @@ class Gravador(QMainWindow):
         self.frame_buttons.setLayout(frame_buttons_layout)
 
         self.button_gravar = AnimatedButton(QIcon("imagens\\Rec.ico"), self)
-        self.button_gravar.clicked.connect(self.gravar_parar)
+        self.button_gravar.clicked.connect(self.gerenciar_button)
 
         self.button_pasta = AnimatedButton(QIcon("imagens\\Pasta.ico"), self)
         self.button_pasta.clicked.connect(self.ver_pasta)
@@ -141,6 +147,11 @@ class Gravador(QMainWindow):
         layout_principal.addWidget(self.frame_buttons)
         layout_principal.addWidget(self.label_ampliato)
         widget_central.setLayout(layout_principal)
+
+        title_font = QFont()
+        title_font.setFamily("fixedsys")
+        title_font.setPointSize(15)
+        self.title.setFont(title_font)
 
         self.setCentralWidget(widget_central)
 
@@ -175,70 +186,93 @@ class Gravador(QMainWindow):
             }
         """)
 
-    def config_input(self):
-        while self.stream.is_active():
-            bloco = self.stream.read(1024)
-            self.frames.append(bloco)
-
-    def gravar_parar(self):
+    def gerenciar_button(self):
         if not self.gravando:
-            # iniciar gravação
-
-            self.audio = pyaudio.PyAudio()
-            info = self.audio.get_host_api_info_by_index(0)
-            numdevices = info.get("deviceCount")
-
-            for i in range(0, numdevices):
-                if self.audio.get_device_info_by_host_api_device_index(0, i).get("maxInputChannels") > 0:
-                    self.statusbar.showMessage("Gravando")
-                    self.button_gravar.setIcon(QIcon("imagens\\Stop.ico"))
-                    self.gravando = True
-                    self.stream = self.audio.open(
-                        format=pyaudio.paInt16,
-                        channels=1,
-                        rate=44100,
-                        frames_per_buffer=1024,
-                        input=True,
-                        input_device_index=i
-                    )
-                    break
-            else:
-                QMessageBox.critical(self, "Erro", "Nenhum microfone detectado!")
-                return
-
-            self.frames = []
-            self.thread_gravacao = threading.Thread(target=self.config_input)
-            self.thread_gravacao.start()
-
+            self.gravar()
         else:
-            self.statusbar.showMessage("Gravação Terminada")
-            self.button_gravar.setIcon(QIcon("imagens\\Rec.ico"))
-            self.gravando = False
+            self.parar()
 
-            if self.stream:
-                self.stream.stop_stream()
-                self.stream.close()
+    def config_input(self):
+        while not self.stop_recording and self.stream.is_active():
+            try:
+                bloco = self.stream.read(1024)
+                self.frames.append(bloco)
+            except Exception as e:
+                print(f"Erro ao ler o stream: {e}")
+                break
 
-            videos_path = os.path.join(os.path.expanduser("~"), "Music")
-            temp_file_path = os.path.join(videos_path, "Gravação_temp.wav")
+    def gravar(self):
+        if not self.gravando:
 
-            file = QFile(temp_file_path)
-            if not file.open(QIODevice.WriteOnly):
-                QMessageBox.critical(self, "Erro", "Não foi possível salvar a gravação.")
-                return
+            try:
+                self.audio = pyaudio.PyAudio()
+                info = self.audio.get_host_api_info_by_index(0)
+                numdevices = info.get("deviceCount")
 
-            out_file = wave.open(file.fileName(), 'wb')
-            out_file.setnchannels(1)
-            out_file.setframerate(44100)
-            out_file.setsampwidth(self.audio.get_sample_size(pyaudio.paInt16))
-            out_file.writeframes(b"".join(self.frames))
-            out_file.close()
+                for i in range(0, numdevices):
+                    if self.audio.get_device_info_by_host_api_device_index(0, i).get("maxInputChannels") > 0:
+                        self.statusbar.showMessage("Gravando")
+                        self.button_gravar.setIcon(QIcon("imagens\\Stop.ico"))
+                        self.gravando = True
+                        self.stream = self.audio.open(
+                            format=pyaudio.paInt16,
+                            channels=1,
+                            rate=44100,
+                            frames_per_buffer=1024,
+                            input=True,
+                            input_device_index=i
+                        )
+                        break
+                else:
+                    QMessageBox.critical(self, "Erro", "Nenhum microfone detectado!")
+                    return
 
-            file.close()
+                self.frames = []
+                self.thread_gravacao = threading.Thread(target=self.config_input)
+                self.thread_gravacao.start()
+            except Exception as e:
+                QMessageBox.critical(self, "Erro", f"Algo inesperado aconteceu! Erro: {e}")
+                if self.stream:
+                    self.stream.stop_stream()
+                    self.stream.close()
 
-            self.audio.terminate()
+    def parar(self):
+        self.statusbar.showMessage("Gravação Terminada")
+        self.button_gravar.setIcon(QIcon("imagens\\Rec.ico"))
+        self.gravando = False
 
-            self.abrir_renomear_dialog(temp_file_path)
+        self.stop_recording = True
+
+        # Salve o arquivo como temporário
+        videos_path = os.path.join(os.path.expanduser("~"), "Music")
+        temp_file_path = os.path.join(videos_path, "Gravação_temp.wav")
+
+        file = QFile(temp_file_path)
+        if not file.open(QIODevice.WriteOnly):
+            QMessageBox.critical(self, "Erro", "Não foi possível salvar a gravação.")
+            return
+
+        out_file = wave.open(file.fileName(), 'wb')
+        out_file.setnchannels(1)
+        out_file.setframerate(44100)
+        out_file.setsampwidth(self.audio.get_sample_size(pyaudio.paInt16))
+        out_file.writeframes(b"".join(self.frames))
+        out_file.close()
+        file.close()
+
+        # Agora, abra o diálogo de renomeação
+        self.abrir_renomear_dialog(temp_file_path)
+
+        if self.thread_gravacao.is_alive():
+            self.thread_gravacao.join()
+
+        if self.stream:
+            self.stream.stop_stream()
+            self.stream.close()
+
+        self.audio.terminate()
+
+        self.stop_recording = False
 
     def abrir_renomear_dialog(self, temp_file_path):
         dialog = RenomearDialog(self)
@@ -257,12 +291,15 @@ class Gravador(QMainWindow):
                         if reply == QMessageBox.No:
                             continue
                         elif reply == QMessageBox.Yes:
+                            os.remove(new_file_path)
+                            file.rename(new_file_path)
+                            QMessageBox.information(self, "Sucesso", f"Arquivo {new_name} substituído.")
                             break
-                    elif not file.rename(new_file_path):
-                        QMessageBox.critical(self, "Erro", f"Falha ao renomear o arquivo: {file.errorString()}")
-                        break
                     else:
-                        QMessageBox.information(self, "Sucesso", f"Arquivo salvo como {new_file_path}")
+                        if not file.rename(new_file_path):
+                            QMessageBox.critical(self, "Erro", f"Falha ao renomear o arquivo: {file.errorString()}")
+                        else:
+                            QMessageBox.information(self, "Sucesso", f"Arquivo salvo como {new_file_path}")
                         break
             else:
                 break
