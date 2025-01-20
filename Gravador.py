@@ -117,7 +117,7 @@ class Gravador(QMainWindow):
 
         # --------------------------------------------------------------------------------------------------------------
 
-        self.title = QLabel("AmPlay [0.0.2]")
+        self.title = QLabel("AmPlay [0.0.3]")
         self.title.setMaximumSize(650, 35)
         self.title.setAlignment(Qt.AlignCenter)
 
@@ -136,7 +136,7 @@ class Gravador(QMainWindow):
 
         # --------------------------------------------------------------------------------------------------------------
 
-        self.label_ampliato = QLabel("Acesse nosso site: <a href='https://www.ampliatodesign.com/gravador'>AmpliatoIdev</a>"
+        self.label_ampliato = QLabel("Acesse nosso site: <a href='https://www.ampliatodesign.com.br/gravador'>AmpliatoIdev</a>"
                                      " | Todos os direitos reservados")
         self.label_ampliato.setAlignment(Qt.AlignCenter)
         self.label_ampliato.setOpenExternalLinks(True)
